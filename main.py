@@ -26,7 +26,6 @@ def main():
             print("Opción inválida.")
             return
         
-        # Seleccionar archivo de mundo
         ruta = elegir_archivo()
         mundo = leer_mundo_desde_archivo(ruta)
         mapa = mundo["mapa"]
@@ -36,7 +35,6 @@ def main():
 
         print("Inicio:", inicio, "Nave:", nave, "Muestras:", muestras)
 
-        # Ejecutar el algoritmo seleccionado
         if sel == "1":
             print("Ejecutando búsqueda AVARA")
             resultado = busqueda_avara.busqueda_avara(mapa, inicio, nave, muestras)

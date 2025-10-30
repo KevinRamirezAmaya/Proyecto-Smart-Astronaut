@@ -98,6 +98,7 @@ def main():
         print("\n=== RESULTADOS ===")
         print("Costo total (g):", resultado["costo_total"])
         print("Nodos expandidos:", resultado["nodos_expandidos"])
+        print("Trayectoria:", resultado["camino con costo"])
         print("Profundidad (movimientos):", resultado["profundidad"])
         print("Tiempo (s):", resultado["tiempo"])
         print("\nSe mostrará la animación en pygame (cierra la ventana para terminar).")

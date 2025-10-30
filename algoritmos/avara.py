@@ -8,12 +8,13 @@ from algoritmos.astar import (
 )
 
 Coordenada = Tuple[int, int]
-Estado = Tuple[Coordenada, Tuple[Tuple[int, int], ...], bool, int]
+Estado = Tuple[Coordenada, Tuple[Tuple[int, int], ...], bool, int, bool]
 # Un estado contiene:
 #   - posicion_actual: (fila, columna)
 #   - muestras_restantes: conjunto ordenado de posiciones
 #   - en_nave: True/False
 #   - combustible: movimientos restantes de la nave
+#   - nave_usada: True si ya se recogió/usó la nave
 
 
 def reconstruir_camino(diccionario_padres: Dict[Estado, Estado], estado_meta: Estado) -> List[Coordenada]:
@@ -57,7 +58,7 @@ def busqueda_avara(
     tiempo_inicio = time.perf_counter()
 
 
-    estado_inicial = empaquetar_estado(posicion_inicial, muestras_iniciales, False, 0)
+    estado_inicial = empaquetar_estado(posicion_inicial, muestras_iniciales, False, 0, False)
 
     
     nodos_por_explorar: List[Tuple[float, int, Estado]] = []
@@ -82,7 +83,7 @@ def busqueda_avara(
         conjunto_visitados.add(estado_actual)
         nodos_expandidos += 1
 
-        posicion_actual, muestras_restantes_tupla, en_nave, combustible = estado_actual
+        posicion_actual, muestras_restantes_tupla, en_nave, combustible, nave_usada = estado_actual
         muestras_restantes = set(muestras_restantes_tupla)
 
         if not muestras_restantes:
@@ -108,7 +109,7 @@ def busqueda_avara(
                 diccionario_padres[estado_vecino] = estado_actual
 
             # Calcular heurística del vecino (solo se usa h)
-            posicion_vecina, muestras_vecinas, _, _ = estado_vecino
+            posicion_vecina, muestras_vecinas, _, _, _ = estado_vecino
             heuristica_vecina = heuristica(posicion_vecina, posicion_nave, set(muestras_vecinas))
 
             contador_expansiones += 1

@@ -4,7 +4,8 @@ from typing import Tuple, Set, List, Dict
 from algoritmos.astar import empaquetar_estado, generar_estados_vecinos, reconstruir_camino
 
 Coordenada = Tuple[int, int]
-Estado = Tuple[Coordenada, Tuple[Tuple[int, int], ...], bool, int]
+# Estado ahora incluye el flag `nave_usada` (bool) como quinto elemento
+Estado = Tuple[Coordenada, Tuple[Tuple[int, int], ...], bool, int, bool]
 
 
 def busqueda_costo_uniforme(
@@ -19,7 +20,7 @@ def busqueda_costo_uniforme(
     """
     tiempo_inicio = time.perf_counter()
 
-    estado_inicial = empaquetar_estado(posicion_inicial, muestras_iniciales, False, 0)
+    estado_inicial = empaquetar_estado(posicion_inicial, muestras_iniciales, False, 0, False)
     costo_g: Dict[Estado, float] = {estado_inicial: 0.0}
     nodos_por_explorar = [(0.0, 0, estado_inicial)]
     diccionario_padres: Dict[Estado, Estado] = {}
@@ -35,7 +36,7 @@ def busqueda_costo_uniforme(
         visitados.add(estado_actual)
         nodos_expandidos += 1
 
-        posicion_actual, muestras_restantes_tupla, en_nave, combustible = estado_actual
+        posicion_actual, muestras_restantes_tupla, en_nave, combustible, nave_usada = estado_actual
         muestras_restantes = set(muestras_restantes_tupla)
 
         if not muestras_restantes:

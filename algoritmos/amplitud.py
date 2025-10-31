@@ -4,7 +4,8 @@ from typing import Tuple, Set, List, Dict
 from algoritmos.astar import empaquetar_estado, generar_estados_vecinos
 
 Coordenada = Tuple[int, int]
-Estado = Tuple[Coordenada, Tuple[Tuple[int, int], ...], bool, int]
+# Estado ahora incluye el flag `nave_usada` (bool) como quinto elemento
+Estado = Tuple[Coordenada, Tuple[Tuple[int, int], ...], bool, int, bool]
 
 
 def reconstruir_camino(diccionario_padres: Dict[Estado, Estado], estado_meta: Estado) -> List[Coordenada]:
@@ -43,7 +44,7 @@ def busqueda_amplitud(
     """
     tiempo_inicio = time.perf_counter()
 
-    estado_inicial = empaquetar_estado(posicion_inicial, muestras_iniciales, False, 0)
+    estado_inicial = empaquetar_estado(posicion_inicial, muestras_iniciales, False, 0, False)
 
     frontera = deque([estado_inicial])
     en_frontera = {estado_inicial}
@@ -67,7 +68,7 @@ def busqueda_amplitud(
         visitados.add(estado_actual)
         nodos_expandidos += 1
 
-        posicion_actual, muestras_restantes_tupla, en_nave, combustible = estado_actual
+        posicion_actual, muestras_restantes_tupla, en_nave, combustible, nave_usada = estado_actual
         muestras_restantes = set(muestras_restantes_tupla)
 
         if not muestras_restantes:
